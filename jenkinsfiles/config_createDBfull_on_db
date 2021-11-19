@@ -1,0 +1,22 @@
+pipeline {
+  agent {label 'master'}
+
+  stages {
+    stage('Copy createDBfull.sql from GIT') {
+      steps {
+        sh 'cp db/createDBfull.sql /var/lib/jenkins/tmp/createDBfull.sql'
+        sh 'cp db/AddStringsToArticles.sql /var/lib/jenkins/tmp/AddStringsToArticles.sql'         
+        }
+    }
+    stage('Run Ansible playbook') {
+      steps {
+        sh 'ansible-playbook -i host/ansible/inventory/hosts host/ansible/playbooks/config_createDBfull_on_db.yml'        
+      }
+    }
+    stage('Clear tmp directory') {
+      steps {
+        sh 'rm /var/lib/jenkins/tmp/*.*'                
+      }
+    }
+  }
+}
