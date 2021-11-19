@@ -2,9 +2,17 @@ pipeline {
   agent {label 'master'}
 
   stages {
+    stage('Copy node_exporter.service from GIT') {
+      steps {
+        dir ('ansible/files') {
+	      	sh 'cp node_exporter.service /var/lib/jenkins/tmp/node_exporter.service'         
+        }
+      }
+    }
     stage('Run Ansible playbook') {
       steps {
-        sh 'ansible-playbook -i host/ansible/inventory/hosts host/ansible/playbooks/deploy_node_exporter.yml'        
+        sh 'ansible-playbook -i ansible/inventory/hosts ansible/playbooks/config_node_exporter_service.yml'         
+        
       }
     }
   }

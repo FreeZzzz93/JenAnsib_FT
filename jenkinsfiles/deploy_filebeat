@@ -2,9 +2,17 @@ pipeline {
   agent {label 'master'}
 
   stages {
+    stage('Copy filebeat.yml from GIT') {
+      steps {
+        dir ('ansible/files') {
+	      	sh 'cp filebeat.yml /var/lib/jenkins/tmp/filebeat.yml'         
+        }
+      }
+    }
     stage('Run Ansible playbook') {
       steps {
-        sh 'ansible-playbook -i host/ansible/inventory/hosts host/ansible/playbooks/deploy_filebeat.yml'       
+        sh 'ansible-playbook -i /ansible/inventory/hosts /ansible/playbooks/deploy_filebeat.yml'         
+        
       }
     }
   }

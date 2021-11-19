@@ -1,5 +1,5 @@
 ---
-- name: node_exporter install
+- name: deploy node_exporter
   hosts: all_hosts
   become: yes
 
@@ -15,15 +15,17 @@
 
   - name: Install service
     template:
-      src: /ansible/files/node_exporter.service
+      src: /var/lib/jenkins/tmp/node_exporter.service
         dest: /etc/systemd/system/node_exporter.service
         owner: root
         group: root
         mode: 0600
+      register: node_serv
 
   - name: configure systemd to use service
     systemd:
       daemon_reload: yes
       name: node_exporter.service
-      state: started
       enabled: yes
+      state: restarted      
+    when: filebeat_conf.changed
