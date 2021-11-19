@@ -6,8 +6,8 @@
 
   - name: Install config
     template:
-      src: /var/lib/jenkins/tmp/filebeat.yml
-      dest: /tmp/filebeat.yml
+      src: /var/lib/jenkins/tmp/node_exporter.service
+      dest: /tmp/node_exporter.service
       owner: root
       group: root
       mode: 0600
