@@ -4,14 +4,14 @@ pipeline {
   stages {
     stage('Copy filebeat.yml from GIT') {
       steps {
-        dir ('host/ansible/files') {
+        dir ('ansible/files') {
 	      	sh 'cp node_exporter.service /var/lib/jenkins/tmp/node_exporter.service'         
         }
       }
     }
     stage('Run Ansible playbook') {
       steps {
-        sh 'ansible-playbook -l $DBD -i host/ansible/inventory/hosts host/ansible/playbooks/config_node_exporter_service.yml'         
+        sh 'ansible-playbook -l $DBD -i ansible/inventory/hosts ansible/playbooks/config_node_exporter_service.yml'         
         
       }
     }
