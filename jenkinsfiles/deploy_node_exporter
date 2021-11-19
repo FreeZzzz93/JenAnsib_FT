@@ -11,8 +11,12 @@ pipeline {
     }
     stage('Run Ansible playbook') {
       steps {
-        sh 'ansible-playbook -i ansible/inventory/hosts ansible/playbooks/config_node_exporter_service.yml'         
-        
+        sh 'ansible-playbook -l $HNAME -i ansible/inventory/hosts ansible/playbooks/config_node_exporter_service.yml'        
+      }
+    }
+    stage('Clear tmp directory') {
+      steps {
+        sh 'rm /var/lib/jenkins/tmp/*.*'                
       }
     }
   }

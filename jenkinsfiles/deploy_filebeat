@@ -11,9 +11,13 @@ pipeline {
     }
     stage('Run Ansible playbook') {
       steps {
-        sh 'ansible-playbook -i /ansible/inventory/hosts /ansible/playbooks/deploy_filebeat.yml'         
-        
+        sh 'ansible-playbook -l $HNAME -i ansible/inventory/hosts ansible/playbooks/deploy_filebeat.yml'        
       }
     }
+    stage('Clear tmp directory') {
+      steps {
+        sh 'rm /var/lib/jenkins/tmp/*.*'                
+      }
+    }    
   }
 }
