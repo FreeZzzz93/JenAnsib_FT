@@ -11,7 +11,7 @@ pipeline {
     }
     stage('Run Ansible playbook') {
       steps {
-        sh 'ansible-playbook -l $DBD -i ansible/inventory/hosts ansible/123.yml'         
+        sh 'ansible-playbook -l $DBD -i ansible/inventory/hosts ansible/playbooks/123.yml'         
         
       }
     }
