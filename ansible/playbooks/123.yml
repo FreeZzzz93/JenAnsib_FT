@@ -1,0 +1,14 @@
+- name: Filebeat install
+  hosts: all_hosts
+  become: yes
+
+  tasks:
+
+  - name: Install config
+    template:
+      src: /var/lib/jenkins/tmp/filebeat.yml
+      dest: /tmp/filebeat.yml
+      owner: root
+      group: root
+      mode: 0600
+    
