@@ -1,0 +1,21 @@
+pipeline {
+  agent {label 'master'}
+
+  stages {
+    stage('Copy script.sh from GIT') {
+      steps {
+        sh 'cp web/script.sh /var/lib/jenkins/tmp/script.sh'         
+        }
+    }
+    stage('Run Ansible playbook') {
+      steps {
+        sh 'ansible-playbook -i host/ansible/inventory/hosts host/ansible/playbooks/config_script_on_web.yml'       
+      }
+    }
+    stage('Clear tmp directory') {
+      steps {
+        sh 'rm /var/lib/jenkins/tmp/script.sh'        
+      }
+    }
+  }
+}

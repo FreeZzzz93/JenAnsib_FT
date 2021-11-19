@@ -1,0 +1,13 @@
+- name: config_AddStringsToArticles_on_db
+  hosts: db
+  become: yes
+
+  tasks:
+
+  - name: copy script file
+    template:
+      src: /var/lib/jenkins/tmp/AddStringsToArticles.sql
+      dest: /local/scripts/AddStringsToArticles.sql
+      owner: root
+      group: root
+      mode: 0755

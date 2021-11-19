@@ -1,0 +1,21 @@
+pipeline {
+  agent {label 'master'}
+
+  stages {
+    stage('Copy AddStringsToArticles.sql from GIT') {
+      steps {
+        sh 'cp db/AddStringsToArticles.sql /var/lib/jenkins/tmp/AddStringsToArticles.sql'         
+        }
+    }
+    stage('Run Ansible playbook') {
+      steps {
+        sh 'ansible-playbook -i host/ansible/inventory/hosts host/ansible/playbooks/config_AddStringsToArticles_on_db.yml'        
+      }
+    }
+    stage('Clear tmp directory') {
+      steps {
+        sh 'rm /var/lib/jenkins/tmp/AddStringsToArticles.sql'        
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+---
+- name: node_exporter install
+  hosts: all_hosts
+  become: yes
+
+  tasks:
+
+  - name: move node exporter to /usr/local/bin
+    copy:
+      src: /ansible/files/node_exporter-1.2.2.linux-amd64/node_exporter
+      dest: /usr/local/bin/node_exporter
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: Install service
+    template:
+      src: /ansible/files/node_exporter.service
+        dest: /etc/systemd/system/node_exporter.service
+        owner: root
+        group: root
+        mode: 0600
+
+  - name: configure systemd to use service
+    systemd:
+      daemon_reload: yes
+      name: node_exporter.service
+      state: started
+      enabled: yes

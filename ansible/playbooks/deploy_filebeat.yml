@@ -1,0 +1,40 @@
+---
+- name: Filebeat install
+  hosts: all_hosts
+  become: yes
+
+  tasks:
+
+  - name: Copy rpm file to server
+    copy:
+      src: /ansible/roles/filebeat/filebeat-7.14.1-x86_64.rpm
+      dest: /tmp/filebeat-7.14.1-x86_64.rpm
+
+  - rpm_key:
+      state: present
+      key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+  - name: Install package.
+    yum:
+      name: /tmp/filebeat-7.14.1-x86_64.rpm
+      state: present
+
+  - name: Install config
+    template:
+      src: /ansible/roles/filebeat/filebeat.yml.j2
+      dest: /etc/filebeat/filebeat.yml
+      owner: root
+      group: root
+      mode: 0600
+
+  - name: Install modules
+    command: filebeat modules enable system
+
+  - name: Start filebeat service
+    service:
+      name: filebeat
+      state: started
+      enabled: yes
+
+  - name: Check config
+    command: filebeat test config

@@ -1,0 +1,46 @@
+###################### Filebeat Configuration Example #########################
+
+# ============================== Filebeat inputs ===============================
+
+# ============================== Filebeat modules ==============================
+
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+# ======================= Elasticsearch template setting =======================
+
+setup.template.settings:
+  index.number_of_shards: 1
+
+# ================================== General ===================================
+
+# ================================= Dashboards =================================
+
+# =============================== Elastic Cloud ================================
+
+# ================================== Outputs ===================================
+
+# ---------------------------- Elasticsearch Output ----------------------------
+
+# ------------------------------ Logstash Output -------------------------------
+
+output.logstash:
+  hosts: ["10.10.90.4:5000"]
+
+# ================================= Processors =================================
+
+processors:
+  - include_fields:
+      fields: ["@timestamp", "message", "host.name", "log.file.path", "input.type", "fileset.name"]
+
+# ================================== Logging ===================================
+
+logging.level: warning
+logging.metrics.enabled: false
+
+# ============================= X-Pack Monitoring ==============================
+
+# ============================== Instrumentation ===============================
+
+# ================================= Migration ==================================

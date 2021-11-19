@@ -1,0 +1,23 @@
+pipeline {
+  agent {label 'master'}
+
+  stages {
+    stage('Copy script2.sh and config file from GIT') {
+      steps {
+        sh 'cp db/script2.sh /var/lib/jenkins/tmp/script2.sh'
+        sh 'cp db/script2_config.cfg /var/lib/jenkins/tmp/script2_config.cfg'       
+        }
+    }
+    stage('Run Ansible playbook') {
+      steps {
+        sh 'ansible-playbook -i host/ansible/inventory/hosts host/ansible/playbooks/config_script2_on_db.yml'        
+      }
+    }
+    stage('Clear tmp directory') {
+      steps {
+        sh 'rm /var/lib/jenkins/tmp/script2.sh'
+        sh 'rm /var/lib/jenkins/tmp/script2_config.cfg'       
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+[router]
+host1 ansible_host=10.10.90.1 ansible_user=sshansible ansible_ssh_private_key_file=/var/lib/jenkins/.ssh/id_rsa
+
+[web]
+host2 ansible_host=10.10.90.2 ansible_user=sshansible ansible_ssh_private_key_file=/var/lib/jenkins/.ssh/id_rsa
+
+[db]
+host3 ansible_host=10.10.90.3 ansible_user=sshansible ansible_ssh_private_key_file=/var/lib/jenkins/.ssh/id_rsa
+
+[host]
+host4 ansible_host=127.0.0.1 ansible_user=sshansible
+
+[all_hosts:children]
+router
+web
+db
+host

@@ -1,0 +1,11 @@
+pipeline {
+  agent {label 'master'}
+
+  stages {
+    stage('Run Ansible playbook') {
+      steps {
+        sh 'ansible-playbook -i host/ansible/inventory/hosts host/ansible/playbooks/deploy_filebeat.yml'       
+      }
+    }
+  }
+}

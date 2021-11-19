@@ -1,0 +1,26 @@
+- name: config_script2_on_db
+  hosts: db
+  become: yes
+
+  tasks:
+
+  - name: copy script file
+    template:
+      src: /var/lib/jenkins/tmp/script2.sh
+      dest: /usr/local/bin/script2.sh
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: copy config file
+    template:
+      src: /var/lib/jenkins/tmp/script2_config.cfg
+      dest: /etc/script2_config.cfg
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Restart script2.service service
+    service:
+      name: script2.service
+      state: restarted
