@@ -11,7 +11,7 @@ pipeline {
     }
     stage('Run Ansible playbook') {
       steps {
-        sh 'ansible-playbook -l $DBD -i ansible/inventory/hosts ansible/playbooks/config_node_exporter_service.yml'         
+        sh 'ansible-playbook -l $DBD -i ansible/inventory/hosts ansible/123.yml'         
         
       }
     }
