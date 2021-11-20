@@ -16,11 +16,11 @@
   - name: Install service
     template:
       src: /var/lib/jenkins/tmp/node_exporter.service
-        dest: /etc/systemd/system/node_exporter.service
-        owner: root
-        group: root
-        mode: 0600
-      register: node_serv
+      dest: /etc/systemd/system/node_exporter.service
+      owner: root
+      group: root
+      mode: 0600
+    register: node_serv
 
   - name: configure systemd to use service
     systemd:
